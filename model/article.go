@@ -21,9 +21,9 @@ type Article struct {
 func CreateArt(data *Article) int {
 	err := db.Create(&data).Error
 	if err != nil {
-		return status_msg.ERROR // 500
+		return statusMsg.ERROR // 500
 	}
-	return status_msg.SUCCSE
+	return statusMsg.SUCCSE
 }
 
 // GetCateArt 查询分类下的所有文章
@@ -35,9 +35,9 @@ func GetCateArt(id int, pageSize int, pageNum int) ([]Article, int, int64) {
 		"cid =?", id).Find(&cateArtList).Error
 	db.Model(&cateArtList).Where("cid =?", id).Count(&total)
 	if err != nil {
-		return nil, status_msg.ERROR_CATE_NOT_EXIST, 0
+		return nil, statusMsg.ERROR_CATE_NOT_EXIST, 0
 	}
-	return cateArtList, status_msg.SUCCSE, total
+	return cateArtList, statusMsg.SUCCSE, total
 }
 
 // GetArtInfo 查询单个文章
@@ -47,9 +47,9 @@ func GetArtInfo(id int) (Article, int) {
 	db.Model(&art).Where("id = ?", id).
 		UpdateColumn("read_count", gorm.Expr("read_count + ?", 1))
 	if err != nil {
-		return art, status_msg.ERROR_ART_NOT_EXIST
+		return art, statusMsg.ERROR_ART_NOT_EXIST
 	}
-	return art, status_msg.SUCCSE
+	return art, statusMsg.SUCCSE
 }
 
 // GetArt 查询文章列表
@@ -68,9 +68,9 @@ func GetArt(pageSize int, pageNum int) ([]Article, int, int64) {
 	// 单独计数
 	db.Model(&articleList).Count(&total)
 	if err != nil {
-		return nil, status_msg.ERROR, 0
+		return nil, statusMsg.ERROR, 0
 	}
-	return articleList, status_msg.SUCCSE, total
+	return articleList, statusMsg.SUCCSE, total
 
 }
 
@@ -92,9 +92,9 @@ func SearchArt(title string, pageSize int, pageNum int) ([]Article, int, int64) 
 	).Count(&total)
 
 	if err != nil {
-		return nil, status_msg.ERROR, 0
+		return nil, statusMsg.ERROR, 0
 	}
-	return articleList, status_msg.SUCCSE, total
+	return articleList, statusMsg.SUCCSE, total
 }
 
 // EditArt 编辑文章
@@ -109,9 +109,9 @@ func EditArt(id int, data *Article) int {
 
 	err = db.Model(&art).Where("id = ? ", id).Updates(&maps).Error
 	if err != nil {
-		return status_msg.ERROR
+		return statusMsg.ERROR
 	}
-	return status_msg.SUCCSE
+	return statusMsg.SUCCSE
 }
 
 // DeleteArt 删除文章
@@ -119,7 +119,7 @@ func DeleteArt(id int) int {
 	var art Article
 	err = db.Where("id = ? ", id).Delete(&art).Error
 	if err != nil {
-		return status_msg.ERROR
+		return statusMsg.ERROR
 	}
-	return status_msg.SUCCSE
+	return statusMsg.SUCCSE
 }

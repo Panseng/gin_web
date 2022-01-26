@@ -19,9 +19,9 @@ type Comment struct {
 func AddComment(data *Comment) int {
 	err = db.Create(&data).Error
 	if err != nil {
-		return status_msg.ERROR
+		return statusMsg.ERROR
 	}
-	return status_msg.SUCCSE
+	return statusMsg.SUCCSE
 }
 
 // GetComment 查询单个评论
@@ -29,9 +29,9 @@ func GetComment(id int) (Comment, int) {
 	var comment Comment
 	err = db.Where("id = ?", id).First(&comment).Error
 	if err != nil {
-		return comment, status_msg.ERROR
+		return comment, statusMsg.ERROR
 	}
-	return comment, status_msg.SUCCSE
+	return comment, statusMsg.SUCCSE
 }
 
 // GetCommentList 后台所有获取评论列表
@@ -47,9 +47,9 @@ func GetCommentList(pageSize int, pageNum int) ([]Comment, int64, int) {
 		Joins("LEFT JOIN user ON comment.user_id = user.id").
 		Scan(&commentList).Error
 	if err != nil {
-		return commentList, 0, status_msg.ERROR
+		return commentList, 0, statusMsg.ERROR
 	}
-	return commentList, total, status_msg.SUCCSE
+	return commentList, total, statusMsg.SUCCSE
 }
 
 // GetCommentCount 获取评论数量
@@ -76,9 +76,9 @@ func GetCommentListFront(id int, pageSize int, pageNum int) ([]Comment, int64, i
 		Where("status = ?", 1).
 		Scan(&commentList).Error
 	if err != nil {
-		return commentList, 0, status_msg.ERROR
+		return commentList, 0, statusMsg.ERROR
 	}
-	return commentList, total, status_msg.SUCCSE
+	return commentList, total, statusMsg.SUCCSE
 }
 
 // 编辑评论（暂不允许编辑评论）
@@ -88,9 +88,9 @@ func DeleteComment(id uint) int {
 	var comment Comment
 	err = db.Where("id = ?", id).Delete(&comment).Error
 	if err != nil {
-		return status_msg.ERROR
+		return statusMsg.ERROR
 	}
-	return status_msg.SUCCSE
+	return statusMsg.SUCCSE
 }
 
 // CheckComment 通过评论
@@ -104,9 +104,9 @@ func CheckComment(id int, data *Comment) int {
 	err = db.Model(&comment).Where("id = ?", id).Updates(maps).First(&res).Error
 	db.Model(&article).Where("id = ?", res.ArticleId).UpdateColumn("comment_count", gorm.Expr("comment_count + ?", 1))
 	if err != nil {
-		return status_msg.ERROR
+		return statusMsg.ERROR
 	}
-	return status_msg.SUCCSE
+	return statusMsg.SUCCSE
 }
 
 // UncheckComment 撤下评论
@@ -120,7 +120,7 @@ func UncheckComment(id int, data *Comment) int {
 	err = db.Model(&comment).Where("id = ?", id).Updates(maps).First(&res).Error
 	db.Model(&article).Where("id = ?", res.ArticleId).UpdateColumn("comment_count", gorm.Expr("comment_count - ?", 1))
 	if err != nil {
-		return status_msg.ERROR
+		return statusMsg.ERROR
 	}
-	return status_msg.SUCCSE
+	return statusMsg.SUCCSE
 }

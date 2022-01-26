@@ -52,10 +52,10 @@ func JwtToken() gin.HandlerFunc {
 		var code int
 		tokenHeader := c.Request.Header.Get("Authorization")
 		if tokenHeader == "" {
-			code = status_msg.ERROR_TOKEN_EXIST
+			code = statusMsg.ERROR_TOKEN_EXIST
 			c.JSON(http.StatusOK, gin.H{
 				"status":  code,
-				"message": status_msg.GetErrMsg(code),
+				"message": statusMsg.GetErrMsg(code),
 			})
 			c.Abort()
 			return
@@ -63,20 +63,20 @@ func JwtToken() gin.HandlerFunc {
 
 		checkToken := strings.Split(tokenHeader, " ")
 		if len(checkToken) == 0 {
-			code = status_msg.ERROR_TOKEN_EXIST
+			code = statusMsg.ERROR_TOKEN_EXIST
 			c.JSON(http.StatusOK, gin.H{
 				"status":  code,
-				"message": status_msg.GetErrMsg(code),
+				"message": statusMsg.GetErrMsg(code),
 			})
 			c.Abort()
 			return
 		}
 
 		if len(checkToken) != 2 || checkToken[0] != "Bearer" {
-			code = status_msg.ERROR_TOKEN_TYPE_WRONG
+			code = statusMsg.ERROR_TOKEN_TYPE_WRONG
 			c.JSON(http.StatusOK, gin.H{
 				"status":  code,
-				"message": status_msg.GetErrMsg(code),
+				"message": statusMsg.GetErrMsg(code),
 			})
 			c.Abort()
 			return
@@ -88,7 +88,7 @@ func JwtToken() gin.HandlerFunc {
 		if err != nil {
 			// 其他错误
 			c.JSON(http.StatusOK, gin.H{
-				"status":  status_msg.ERROR,
+				"status":  statusMsg.ERROR,
 				"message": err.Error(),
 				"data":    nil,
 			})

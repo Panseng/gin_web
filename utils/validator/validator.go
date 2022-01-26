@@ -27,8 +27,8 @@ func Validate(data interface{}) (string, int) {
 	err = validate.Struct(data)
 	if err != nil {
 		for _, v := range err.(validator.ValidationErrors) {
-			return v.Translate(trans), status_msg.ERROR
+			return v.Translate(trans), statusMsg.ERROR
 		}
 	}
-	return "", status_msg.SUCCSE
+	return "", statusMsg.SUCCSE
 }

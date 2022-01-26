@@ -4,7 +4,7 @@ import (
 	"gin_web/middleware"
 	"gin_web/model"
 	"gin_web/utils/status_msg"
-	"github.com/dgrijalva/jwt-go"
+	"github.com/dgrijalva/jwt-go/v4"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
@@ -18,14 +18,14 @@ func Login(c *gin.Context)  {
 	var code int
 	formData, code = model.CheckLogin(formData.Username, formData.Password)
 
-	if code == status_msg.SUCCSE{
+	if code == statusMsg.SUCCSE{
 		setToken(c, formData)
 	} else {
 		c.JSON(http.StatusOK, gin.H{
 			"status":  code,
 			"data":    formData.Username,
 			"id":      formData.ID,
-			"message": status_msg.GetErrMsg(code),
+			"message": statusMsg.GetErrMsg(code),
 			"token":   token,
 		})
 	}
@@ -43,7 +43,7 @@ func LoginFront(c *gin.Context) {
 		"status":  code,
 		"data":    formData.Username,
 		"id":      formData.ID,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 }
 
@@ -53,9 +53,11 @@ func setToken(c *gin.Context, user model.User) {
 	claims := middleware.MyClaims{
 		Username: user.Username,
 		StandardClaims: jwt.StandardClaims{
-			NotBefore: time.Now().Unix() - 100,
-			ExpiresAt: time.Now().Unix() + 604800,
-			Issuer:    "GinBlog",
+			//NotBefore: time.Now()- 100,
+			NotBefore: jwt.At(time.Unix(time.Now().Unix()-100, 0)), // 时间戳转换为时间
+			//ExpiresAt: time.Now().Unix() + 604800,
+			ExpiresAt: jwt.At(time.Unix(time.Now().Unix() + 604800, 0)),
+			Issuer:    "GinWeb",
 		},
 	}
 
@@ -63,8 +65,8 @@ func setToken(c *gin.Context, user model.User) {
 
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
-			"status":  status_msg.ERROR,
-			"message": status_msg.GetErrMsg(status_msg.ERROR),
+			"status":  statusMsg.ERROR,
+			"message": statusMsg.GetErrMsg(statusMsg.ERROR),
 			"token":   token,
 		})
 	}
@@ -73,7 +75,7 @@ func setToken(c *gin.Context, user model.User) {
 		"status":  200,
 		"data":    user.Username,
 		"id":      user.ID,
-		"message": status_msg.GetErrMsg(200),
+		"message": statusMsg.GetErrMsg(200),
 		"token":   token,
 	})
 	return

@@ -1,7 +1,12 @@
 package main
 
-import "gin_web/model"
+import (
+	"gin_web/model"
+	"gin_web/router"
+)
 
 func main()  {
-	model.InitDb()
+	model.InitDB()
+	// 引入路由组件
+	router.InitRouter()
 }

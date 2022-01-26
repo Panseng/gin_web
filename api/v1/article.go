@@ -18,7 +18,7 @@ func AddArticle(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    data,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 }
 
@@ -45,7 +45,7 @@ func GetCateArt(c *gin.Context) {
 		"status":  code,
 		"data":    data,
 		"total":   total,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 }
 
@@ -56,7 +56,7 @@ func GetArtInfo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    data,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 }
 
@@ -82,7 +82,7 @@ func GetArt(c *gin.Context) {
 			"status":  code,
 			"data":    data,
 			"total":   total,
-			"message": status_msg.GetErrMsg(code),
+			"message": statusMsg.GetErrMsg(code),
 		})
 		return
 	}
@@ -92,7 +92,7 @@ func GetArt(c *gin.Context) {
 		"status":  code,
 		"data":    data,
 		"total":   total,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 }
 
@@ -106,7 +106,7 @@ func EditArt(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 }
 
@@ -118,6 +118,6 @@ func DeleteArt(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 }

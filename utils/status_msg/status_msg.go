@@ -1,4 +1,4 @@
-package status_msg
+package statusMsg
 
 const (
 	SUCCSE = 200

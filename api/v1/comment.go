@@ -17,7 +17,7 @@ func AddComment(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    data,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 }
 
@@ -28,7 +28,7 @@ func GetComment(c *gin.Context)  {
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    data,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 }
 
@@ -38,7 +38,7 @@ func DeleteComment(c *gin.Context) {
 	code := model.DeleteComment(uint(id))
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 }
 
@@ -73,7 +73,7 @@ func GetCommentList(c *gin.Context) {
 		"status":  code,
 		"data":    data,
 		"total":   total,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 
 }
@@ -101,7 +101,7 @@ func GetCommentListFront(c *gin.Context) {
 		"status":  code,
 		"data":    data,
 		"total":   total,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 
 }
@@ -115,7 +115,7 @@ func CheckComment(c *gin.Context) {
 	code := model.CheckComment(id, &data)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 }
 
@@ -128,6 +128,6 @@ func UncheckComment(c *gin.Context) {
 	code := model.UncheckComment(id, &data)
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 }

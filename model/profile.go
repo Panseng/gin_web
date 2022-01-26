@@ -21,9 +21,9 @@ func GetProfile(id int) (Profile, int) {
 	var profile Profile
 	err = db.Where("ID = ?", id).First(&profile).Error
 	if err != nil {
-		return profile, status_msg.ERROR
+		return profile, statusMsg.ERROR
 	}
-	return profile, status_msg.SUCCSE
+	return profile, statusMsg.SUCCSE
 }
 
 // UpdateProfile 更新个人信息设置
@@ -31,7 +31,7 @@ func UpdateProfile(id int, data *Profile) int {
 	var profile Profile
 	err = db.Model(&profile).Where("ID = ?", id).Updates(&data).Error
 	if err != nil {
-		return status_msg.ERROR
+		return statusMsg.ERROR
 	}
-	return status_msg.SUCCSE
+	return statusMsg.SUCCSE
 }

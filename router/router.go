@@ -23,6 +23,18 @@ func InitRouter()  {
 	r.Use(gin.Recovery())
 	r.Use(middleware.Cors())
 
+	r.Static("/static", "./web/front/dist/static")
+	r.Static("/admin", "./web/admin/dist")
+	r.StaticFile("/favicon.ico", "/web/front/dist/favicon.ico")
+
+	r.GET("/", func(c *gin.Context) {
+		c.HTML(200, "front", nil)
+	})
+
+	r.GET("/admin", func(c *gin.Context) {
+		c.HTML(200, "admin", nil)
+	})
+
 	/*
 		后台管理路由接口
 	*/
@@ -91,5 +103,5 @@ func InitRouter()  {
 		router.GET("commentcount/:id", v1.GetCommentCount)
 	}
 
-	r.Run(utils.ServerPort)
+	r.Run(":" +utils.ServerPort)
 }

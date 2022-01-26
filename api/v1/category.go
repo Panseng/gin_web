@@ -13,7 +13,7 @@ func AddCategory(c *gin.Context) {
 	var data model.Category
 	_ = c.ShouldBindJSON(&data)
 	code := model.CheckCategory(data.Name)
-	if code == status_msg.SUCCSE {
+	if code == statusMsg.SUCCSE {
 		model.CreateCate(&data)
 	}
 
@@ -21,7 +21,7 @@ func AddCategory(c *gin.Context) {
 		http.StatusOK, gin.H{
 			"status":  code,
 			"data":    data,
-			"message": status_msg.GetErrMsg(code),
+			"message": statusMsg.GetErrMsg(code),
 		},
 	)
 }
@@ -36,7 +36,7 @@ func GetCateInfo(c *gin.Context) {
 		http.StatusOK, gin.H{
 			"status":  code,
 			"data":    data,
-			"message": status_msg.GetErrMsg(code),
+			"message": statusMsg.GetErrMsg(code),
 		},
 	)
 
@@ -59,13 +59,13 @@ func GetCate(c *gin.Context) {
 	}
 
 	data, total := model.GetCate(pageSize, pageNum)
-	code := status_msg.SUCCSE
+	code := statusMsg.SUCCSE
 	c.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
 			"data":    data,
 			"total":   total,
-			"message": status_msg.GetErrMsg(code),
+			"message": statusMsg.GetErrMsg(code),
 		},
 	)
 }
@@ -76,17 +76,17 @@ func EditCate(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	_ = c.ShouldBindJSON(&data)
 	code := model.CheckCategory(data.Name)
-	if code == status_msg.SUCCSE {
+	if code == statusMsg.SUCCSE {
 		model.EditCate(id, &data)
 	}
-	if code == status_msg.ERROR_CATENAME_USED {
+	if code == statusMsg.ERROR_CATENAME_USED {
 		c.Abort()
 	}
 
 	c.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
-			"message": status_msg.GetErrMsg(code),
+			"message": statusMsg.GetErrMsg(code),
 		},
 	)
 }
@@ -100,7 +100,7 @@ func DeleteCate(c *gin.Context) {
 	c.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
-			"message": status_msg.GetErrMsg(code),
+			"message": statusMsg.GetErrMsg(code),
 		},
 	)
 }

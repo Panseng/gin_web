@@ -14,7 +14,7 @@ func GetProfile(c *gin.Context)  {
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
 		"data":    data,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 }
 
@@ -27,6 +27,6 @@ func UpdateProfile(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"status":  code,
-		"message": status_msg.GetErrMsg(code),
+		"message": statusMsg.GetErrMsg(code),
 	})
 }

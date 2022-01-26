@@ -16,7 +16,7 @@ func AddUser(c *gin.Context) {
 	_ = c.ShouldBindJSON(&data)
 
 	//msg, validCode = validator.Validate(&data)
-	if validCode != status_msg.SUCCSE {
+	if validCode != statusMsg.SUCCSE {
 		c.JSON(
 			http.StatusOK, gin.H{
 				"status":  validCode,
@@ -28,13 +28,13 @@ func AddUser(c *gin.Context) {
 	}
 
 	code := model.CheckUserName(data.Username)
-	if code == status_msg.SUCCSE{
+	if code == statusMsg.SUCCSE{
 		model.CreateUser(&data)
 	}
 	c.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
-			"message": status_msg.GetErrMsg(code),
+			"message": statusMsg.GetErrMsg(code),
 		},
 	)
 }
@@ -52,7 +52,7 @@ func GetUserInfo(c *gin.Context) {
 			"status":  code,
 			"data":    data,
 			"total":   1,
-			"message": status_msg.GetErrMsg(code),
+			"message": statusMsg.GetErrMsg(code),
 		},
 	)
 
@@ -65,14 +65,14 @@ func EditUser(c *gin.Context) {
 	_ = c.ShouldBindJSON(&data)
 
 	code := model.CheckUpUser(id, data.Username)
-	if code == status_msg.SUCCSE {
+	if code == statusMsg.SUCCSE {
 		model.EditUser(id, &data)
 	}
 
 	c.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
-			"message": status_msg.GetErrMsg(code),
+			"message": statusMsg.GetErrMsg(code),
 		},
 	)
 }
@@ -88,7 +88,7 @@ func ChangeUserPassword(c *gin.Context) {
 	c.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
-			"message": status_msg.GetErrMsg(code),
+			"message": statusMsg.GetErrMsg(code),
 		},
 	)
 }
@@ -102,7 +102,7 @@ func DeleteUser(c *gin.Context) {
 	c.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
-			"message": status_msg.GetErrMsg(code),
+			"message": statusMsg.GetErrMsg(code),
 		},
 	)
 }
@@ -126,13 +126,13 @@ func GetUserList(c *gin.Context) {
 
 	data, total := model.GetUserList(username, pageSize, pageNum)
 
-	code := status_msg.SUCCSE
+	code := statusMsg.SUCCSE
 	c.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
 			"data":    data,
 			"total":   total,
-			"message": status_msg.GetErrMsg(code),
+			"message": statusMsg.GetErrMsg(code),
 		},
 	)
 }
