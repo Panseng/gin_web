@@ -4,7 +4,7 @@ import (
 	"errors"
 	"gin_web/utils"
 	"gin_web/utils/status_msg"
-	"github.com/dgrijalva/jwt-go"
+	"github.com/dgrijalva/jwt-go/v4"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
@@ -19,55 +19,31 @@ func NewJWT() *JWT {
 		[]byte(utils.JwtKey),
 	}
 }
-
 type MyClaims struct {
 	Username string `json:"username"`
 	jwt.StandardClaims
 }
 
-// 定义错误
-var (
-	TokenExpired     error = errors.New("Token已过期,请重新登录")
-	TokenNotValidYet error = errors.New("Token无效,请重新登录")
-	TokenMalformed   error = errors.New("Token不正确,请重新登录")
-	TokenInvalid     error = errors.New("这不是一个token,请重新登录")
-)
-
 // CreateToken 生成token
-func (j *JWT) CreateToken(claims MyClaims) (string, error) {
+func (j *JWT)CreateToken(claims MyClaims)(string, error)  {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(j.JwtKey)
 }
 
-// ParserToken 解析token
-func (j *JWT) ParserToken(tokenString string) (*MyClaims, error) {
+func (j *JWT)ParserToken(tokenString string)(*MyClaims, error)  {
 	token, err := jwt.ParseWithClaims(tokenString, &MyClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return j.JwtKey, nil
 	})
-	
+
 	if err != nil {
-		if ve, ok := err.(*jwt.ValidationError); ok {
-			if ve.Errors&jwt.ValidationErrorMalformed != 0 {
-				return nil, TokenMalformed
-			} else if ve.Errors&jwt.ValidationErrorExpired != 0 {
-				// Token is expired
-				return nil, TokenExpired
-			} else if ve.Errors&jwt.ValidationErrorNotValidYet != 0 {
-				return nil, TokenNotValidYet
-			} else {
-				return nil, TokenInvalid
-			}
-		}
+		return nil, err
 	}
-	
-	if token != nil {
-		if claims, ok := token.Claims.(*MyClaims); ok && token.Valid {
+	if token != nil{
+		if claims, ok := token.Claims.(*MyClaims); ok && token.Valid{
 			return claims, nil
 		}
-		return nil, TokenInvalid
 	}
-	
-	return nil, TokenInvalid
+	return  nil, errors.New("这不是一个token,请重新登录")
 }
 
 // JwtToken jwt中间件
@@ -84,9 +60,10 @@ func JwtToken() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		
+
 		checkToken := strings.Split(tokenHeader, " ")
 		if len(checkToken) == 0 {
+			code = status_msg.ERROR_TOKEN_EXIST
 			c.JSON(http.StatusOK, gin.H{
 				"status":  code,
 				"message": status_msg.GetErrMsg(code),
@@ -94,8 +71,9 @@ func JwtToken() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		
+
 		if len(checkToken) != 2 || checkToken[0] != "Bearer" {
+			code = status_msg.ERROR_TOKEN_TYPE_WRONG
 			c.JSON(http.StatusOK, gin.H{
 				"status":  code,
 				"message": status_msg.GetErrMsg(code),
@@ -103,20 +81,11 @@ func JwtToken() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		
+
 		j := NewJWT()
 		// 解析token
 		claims, err := j.ParserToken(checkToken[1])
 		if err != nil {
-			if err == TokenExpired {
-				c.JSON(http.StatusOK, gin.H{
-					"status":  status_msg.ERROR,
-					"message": "token授权已过期,请重新登录",
-					"data":    nil,
-				})
-				c.Abort()
-				return
-			}
 			// 其他错误
 			c.JSON(http.StatusOK, gin.H{
 				"status":  status_msg.ERROR,
@@ -126,7 +95,7 @@ func JwtToken() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		
+
 		c.Set("username", claims)
 		c.Next()
 	}

@@ -4,12 +4,24 @@ import (
 	v1 "gin_web/api/v1"
 	"gin_web/middleware"
 	"gin_web/utils"
+	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
 )
 
+func createMyRender() multitemplate.Renderer {
+	p := multitemplate.NewRenderer()
+	p.AddFromFiles("admin", "web/admin/dist/index.html")
+	p.AddFromFiles("front", "web/front/dist/index.html")
+	return p
+}
+
 func InitRouter()  {
 	gin.SetMode(utils.ServerMode)
-	r:= gin.Default()
+	r := gin.New()
+	r.HTMLRender = createMyRender()
+	r.Use(middleware.Log())
+	r.Use(gin.Recovery())
+	r.Use(middleware.Cors())
 
 	/*
 		后台管理路由接口

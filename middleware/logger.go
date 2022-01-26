@@ -10,27 +10,17 @@ import (
 	"time"
 )
 
-func Log() gin.HandlerFunc {
+func Log() gin.HandlerFunc  {
 	filePath := "log/log"
-	//linkName := "latest_log.log"
 
-	scr, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, 0755)
-	if err != nil {
-		fmt.Println("err:", err)
-	}
 	logger := logrus.New()
-
-	logger.Out = scr
-
 	logger.SetLevel(logrus.DebugLevel)
 
 	logWriter, _ := retalog.New(
-		filePath+"%Y%m%d.log",
-		retalog.WithMaxAge(7*24*time.Hour),
-		retalog.WithRotationTime(24*time.Hour),
-		//retalog.WithLinkName(linkName),
+		filePath+"%Y%m%d.log", // 文件切割
+		retalog.WithMaxAge(7*24*time.Hour), // 保留时间
+		retalog.WithRotationTime(1*time.Minute), //rotate 最小为1分钟轮询。默认60s  低于1分钟就按1分钟来
 	)
-
 	writeMap := lfshook.WriterMap{
 		logrus.InfoLevel:  logWriter,
 		logrus.FatalLevel: logWriter,
@@ -42,7 +32,6 @@ func Log() gin.HandlerFunc {
 	Hook := lfshook.NewHook(writeMap, &logrus.TextFormatter{
 		TimestampFormat: "2006-01-02 15:04:05",
 	})
-
 	logger.AddHook(Hook)
 
 	return func(c *gin.Context) {
