@@ -2,6 +2,6 @@ INSERT INTO `article` VALUES (1, '2021-01-04 22:47:34.425', '2021-01-04 22:47:34
 INSERT INTO `category` VALUES (1, 'GinWeb');
 INSERT INTO `comment` VALUES (1, '2021-01-04 22:47:58.055', '2021-01-04 22:48:24.617', NULL, 1, 1, '测试测试~~~', 'admin', '内容测试测试测试', 1);
 INSERT INTO `comment` VALUES (2, '2021-01-04 22:49:04.785', '2021-01-04 22:49:12.046', NULL, 2, 1, '测试测试', 'weject', '内容测试测试测试', 1);
-INSERT INTO `profile` VALUES (1, 'weject', '请输入个人介绍', 'QQ号码', '微信号码', '微博地址', 'B站地址', '电子邮箱', 'http://test.scjglaw.cn/FsdR3jZStpoxJ1652sFmNMtwqiFY', 'http://test.scjglaw.cn/Fm63wdxiVmW7xN3z2R-czYUdMmLY', '127.0.0.1');
+INSERT INTO `profile` VALUES (1, 'weject', 'GOPHER', '', 'jimmy_leo_pan', '', '', 'panseng.dr@qq.com', 'http://test.scjglaw.cn/FsdR3jZStpoxJ1652sFmNMtwqiFY', 'http://test.scjglaw.cn/Fm63wdxiVmW7xN3z2R-czYUdMmLY', '127.0.0.1');
 INSERT INTO `user` VALUES (1, '2021-02-09 17:05:14.764', '2021-02-09 17:05:14.764', NULL, 'admin', '$2a$10$YGL5a9z7ykG6BWOo.XhJU.h8r98BD5IvAmLISBB9rFIefbDzrv58O', 1);
 

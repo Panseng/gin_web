@@ -25,7 +25,7 @@ func Login(c *gin.Context)  {
 			"status":  code,
 			"data":    formData.Username,
 			"id":      formData.ID,
-			"message": statusMsg.GetErrMsg(code),
+			"message": statusMsg.GetStatusMsg(code),
 			"token":   token,
 		})
 	}
@@ -43,7 +43,7 @@ func LoginFront(c *gin.Context) {
 		"status":  code,
 		"data":    formData.Username,
 		"id":      formData.ID,
-		"message": statusMsg.GetErrMsg(code),
+		"message": statusMsg.GetStatusMsg(code),
 	})
 }
 
@@ -66,7 +66,7 @@ func setToken(c *gin.Context, user model.User) {
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"status":  statusMsg.ERROR,
-			"message": statusMsg.GetErrMsg(statusMsg.ERROR),
+			"message": statusMsg.GetStatusMsg(statusMsg.ERROR),
 			"token":   token,
 		})
 	}
@@ -75,7 +75,7 @@ func setToken(c *gin.Context, user model.User) {
 		"status":  200,
 		"data":    user.Username,
 		"id":      user.ID,
-		"message": statusMsg.GetErrMsg(200),
+		"message": statusMsg.GetStatusMsg(200),
 		"token":   token,
 	})
 	return

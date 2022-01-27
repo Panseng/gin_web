@@ -55,7 +55,7 @@ func JwtToken() gin.HandlerFunc {
 			code = statusMsg.ERROR_TOKEN_EXIST
 			c.JSON(http.StatusOK, gin.H{
 				"status":  code,
-				"message": statusMsg.GetErrMsg(code),
+				"message": statusMsg.GetStatusMsg(code),
 			})
 			c.Abort()
 			return
@@ -66,7 +66,7 @@ func JwtToken() gin.HandlerFunc {
 			code = statusMsg.ERROR_TOKEN_EXIST
 			c.JSON(http.StatusOK, gin.H{
 				"status":  code,
-				"message": statusMsg.GetErrMsg(code),
+				"message": statusMsg.GetStatusMsg(code),
 			})
 			c.Abort()
 			return
@@ -76,7 +76,7 @@ func JwtToken() gin.HandlerFunc {
 			code = statusMsg.ERROR_TOKEN_TYPE_WRONG
 			c.JSON(http.StatusOK, gin.H{
 				"status":  code,
-				"message": statusMsg.GetErrMsg(code),
+				"message": statusMsg.GetStatusMsg(code),
 			})
 			c.Abort()
 			return

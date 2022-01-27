@@ -21,7 +21,7 @@ func AddCategory(c *gin.Context) {
 		http.StatusOK, gin.H{
 			"status":  code,
 			"data":    data,
-			"message": statusMsg.GetErrMsg(code),
+			"message": statusMsg.GetStatusMsg(code),
 		},
 	)
 }
@@ -36,7 +36,7 @@ func GetCateInfo(c *gin.Context) {
 		http.StatusOK, gin.H{
 			"status":  code,
 			"data":    data,
-			"message": statusMsg.GetErrMsg(code),
+			"message": statusMsg.GetStatusMsg(code),
 		},
 	)
 
@@ -65,7 +65,7 @@ func GetCate(c *gin.Context) {
 			"status":  code,
 			"data":    data,
 			"total":   total,
-			"message": statusMsg.GetErrMsg(code),
+			"message": statusMsg.GetStatusMsg(code),
 		},
 	)
 }
@@ -86,7 +86,7 @@ func EditCate(c *gin.Context) {
 	c.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
-			"message": statusMsg.GetErrMsg(code),
+			"message": statusMsg.GetStatusMsg(code),
 		},
 	)
 }
@@ -100,7 +100,7 @@ func DeleteCate(c *gin.Context) {
 	c.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
-			"message": statusMsg.GetErrMsg(code),
+			"message": statusMsg.GetStatusMsg(code),
 		},
 	)
 }

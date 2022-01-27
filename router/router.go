@@ -4,6 +4,7 @@ import (
 	v1 "gin_web/api/v1"
 	"gin_web/middleware"
 	"gin_web/utils"
+	"github.com/gin-contrib/gzip"
 	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
 )
@@ -16,16 +17,19 @@ func createMyRender() multitemplate.Renderer {
 }
 
 func InitRouter()  {
+
 	gin.SetMode(utils.ServerMode)
 	r := gin.New()
 	r.HTMLRender = createMyRender()
-	r.Use(middleware.Log())
-	r.Use(gin.Recovery())
-	r.Use(middleware.Cors())
+
+	r.Use(middleware.Log()) // 日志中间件
+	r.Use(gin.Recovery()) // gin恢复
+	r.Use(middleware.Cors()) // 跨域
+	r.Use(gzip.Gzip(gzip.DefaultCompression, gzip.WithExcludedExtensions([]string{".pdf", ".mp4"})))
 
 	r.Static("/static", "./web/front/dist/static")
 	r.Static("/admin", "./web/admin/dist")
-	r.StaticFile("/favicon.ico", "/web/front/dist/favicon.ico")
+	r.StaticFile("/favicon.ico", "./web/front/dist/favicon.ico")
 
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(200, "front", nil)
@@ -43,6 +47,7 @@ func InitRouter()  {
 	{
 		// 用户模块的路由接口
 		auth.GET("admin/users", v1.GetUserList)
+		auth.GET("admin/managers", v1.GetManagerUserCounts)
 		auth.PUT("user/:id", v1.EditUser)
 		auth.DELETE("user/:id", v1.DeleteUser)
 		//修改密码
@@ -59,7 +64,7 @@ func InitRouter()  {
 		auth.PUT("article/:id", v1.EditArt)
 		auth.DELETE("article/:id", v1.DeleteArt)
 		// 上传文件
-		//auth.POST("upload", v1.UpLoad)
+		auth.POST("upload", v1.UpLoad)
 		// 更新个人设置
 		auth.GET("admin/profile/:id", v1.GetProfile)
 		auth.PUT("profile/:id", v1.UpdateProfile)

@@ -14,5 +14,6 @@ module.exports = {
         return assetFilename.endsWith('.js')
       }
     }
-  }
+  },
+  productionSourceMap: false
 }

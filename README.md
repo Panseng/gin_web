@@ -2,11 +2,27 @@
 以gin为后台框架，使用mysql作数据库。以vue为前端框架\
 参考：[项目](https://github.com/wejectchen/Ginblog)
 
+## Todo
+- [ ] 用户列表：删除、修改管理员校验过程，如果仅剩一个管理员，则不得删改
+
 ## 差异
 文件命名：本项目文件和文件夹不同单词均使用小写单词，通过下划线连接\
 包命名：将errorMsg变更为statusMsg\
 部分依赖更新到最新版本，使用当前版本语境进行代码编写产生的差异\
 model部分：mysql的使用和理解上的差异\
+增加了GZIP压缩功能，原计划在vue build时压缩，但压缩后的文件并不能传到浏览器。\
+
+### [web/front](web/front)模块
+导航栏：增加点击复制信息和提示功能\
+> 修改文件：[Nav.vue](web/front/src/components/Nav.vue)\
+> 使用vuetify ui的```v-tooltip```提供提示信息功能\
+> 使用原生```document.execCommand('copy')```提供复制到剪切板功能
+
+文章：修改图片显示：最大宽度为父元素的100%（因文章内容是通过v-html生成，在vue的style设置了scope的之后对文章内容样式不生效，本项目在app.vue中定向修改）
+###[web/admin](web/admin)模块
+登录界面：登录框位置调整到水平居中位置\
+增加配置，不再提供压缩文件map\
+增加了修改密码前，原密码确认过程
 
 ## 目录结构
 
@@ -96,6 +112,8 @@ http://localhost
 后台管理页面
 http://localhost/admin
 ```
+> 注意，如果是通过npm启动，则需要添加端口8080\
+> 如```http://localhost:8080```
 
 默认管理员:admin  密码:123456
 
@@ -104,8 +122,8 @@ http://localhost/admin
 1.  简单的用户管理权限设置
 2.  用户密码加密存储
 3.  文章分类自定义
-4.  列表分页\
-~~5.  图片上传七牛云~~
+4.  列表分页
+5.  图片上传七牛云
 6.  JWT 认证
 7.  自定义日志功能
 8.  跨域 cors 设置

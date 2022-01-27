@@ -15,6 +15,11 @@ var (
 	DBUser		string
 	DBPwd		string
 	DBName	string
+
+	AK string
+	SK string
+	Bucket string
+	QiNiuServer string
 )
 
 func init()  {
@@ -40,4 +45,11 @@ func loadDB(file *ini.File)  {
 	DBUser =file.Section("database").Key("DBUser").MustString("root")
 	DBPwd =file.Section("database").Key("DBPwd").MustString("mysql@2020")
 	DBName =file.Section("database").Key("DBName").MustString("gin_web")
+}
+
+func loadQiNiu(file *ini.File)  {
+	AK =file.Section("qi_niu").Key("AK").String()
+	SK =file.Section("qi_niu").Key("SK").String()
+	Bucket =file.Section("qi_niu").Key("Bucket").String()
+	QiNiuServer =file.Section("qi_niu").Key("QiNiuServer").String()
 }

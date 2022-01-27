@@ -37,11 +37,24 @@ func CreateUser(data *User) int {
 // GetUser 查询用户
 func GetUser(id int) (User, int)  {
 	var user User
-	err := db.Limit(1).Where("ID = ?", id).Find(&user).Error
+	// 定义字段，不传输密码
+	err := db.Select("id,username,role,created_at").Limit(1).Where("id = ?", id).Find(&user).Error
 	if err != nil {
 		return user, statusMsg.ERROR
 	}
 	return user, statusMsg.SUCCSE
+}
+
+// GetManagerUserCount 查询管理员用户数目
+func GetManagerUserCount() (c int64, code int) {
+	var user User
+	var count int64
+	// 定义字段，不传输密码
+	err := db.Where("role = 1").Model(&user).Count(&count)
+	if err != nil {
+		return 0, statusMsg.ERROR
+	}
+	return count, statusMsg.SUCCSE
 }
 
 // GetUserList 获取用户列表

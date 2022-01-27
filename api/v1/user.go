@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-// 添加用户
+// AddUser 添加用户
 func AddUser(c *gin.Context) {
 	var data model.User
 	var msg string
@@ -28,13 +28,13 @@ func AddUser(c *gin.Context) {
 	}
 
 	code := model.CheckUserName(data.Username)
-	if code == statusMsg.SUCCSE{
+	if code == statusMsg.SUCCSE {
 		model.CreateUser(&data)
 	}
 	c.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
-			"message": statusMsg.GetErrMsg(code),
+			"message": statusMsg.GetStatusMsg(code),
 		},
 	)
 }
@@ -52,7 +52,7 @@ func GetUserInfo(c *gin.Context) {
 			"status":  code,
 			"data":    data,
 			"total":   1,
-			"message": statusMsg.GetErrMsg(code),
+			"message": statusMsg.GetStatusMsg(code),
 		},
 	)
 
@@ -72,7 +72,7 @@ func EditUser(c *gin.Context) {
 	c.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
-			"message": statusMsg.GetErrMsg(code),
+			"message": statusMsg.GetStatusMsg(code),
 		},
 	)
 }
@@ -88,7 +88,7 @@ func ChangeUserPassword(c *gin.Context) {
 	c.JSON(
 		http.StatusOK, gin.H{
 			"status":  code,
-			"message": statusMsg.GetErrMsg(code),
+			"message": statusMsg.GetStatusMsg(code),
 		},
 	)
 }
@@ -99,11 +99,10 @@ func DeleteUser(c *gin.Context) {
 
 	code := model.DeleteUser(id)
 
-	c.JSON(
-		http.StatusOK, gin.H{
-			"status":  code,
-			"message": statusMsg.GetErrMsg(code),
-		},
+	c.JSON(http.StatusOK, gin.H{
+		"status":  code,
+		"message": statusMsg.GetStatusMsg(code),
+	},
 	)
 }
 
@@ -132,7 +131,16 @@ func GetUserList(c *gin.Context) {
 			"status":  code,
 			"data":    data,
 			"total":   total,
-			"message": statusMsg.GetErrMsg(code),
+			"message": statusMsg.GetStatusMsg(code),
 		},
 	)
+}
+
+func GetManagerUserCounts(c *gin.Context) {
+	count, code := model.GetManagerUserCount()
+	c.JSON(http.StatusOK, gin.H{
+		"status": code,
+		"data":  map[string]int64{"count": count},
+		"message": statusMsg.GetStatusMsg(code),
+	})
 }
