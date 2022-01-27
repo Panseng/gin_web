@@ -73,9 +73,9 @@ JwtKey = 89js82js72 #JWT密钥，随机字符串即可
 Db = mysql #数据库类型，不能变更为其他形式
 DbHost = 127.0.0.1 # 数据库地址
 DbPort = 3306 # 数据库端口
-DbUser = ginblog # 数据库用户名
+DbUser = GinWeb # 数据库用户名
 DbPassWord = admin123 # 数据库用户密码
-DbName = ginblog # 数据库名
+DbName = GinWeb # 数据库名
 ```
 
 5. 在database中将sql文件导入数据库

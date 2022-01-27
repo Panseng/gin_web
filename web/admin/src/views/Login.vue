@@ -87,7 +87,7 @@ export default {
   background-color: #fff;
   position: absolute;
   top: 50%;
-  left: 70%;
+  left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 9px;
 }
