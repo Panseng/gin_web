@@ -9,6 +9,6 @@ func main()  {
 	// 初始化数据库
 	model.InitDB()
 
-	// 引入路由组件
+	//// 引入路由组件
 	router.InitRouter()
 }

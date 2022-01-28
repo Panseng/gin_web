@@ -46,7 +46,7 @@
         </template>
 
         <template v-slot:default="dialog">
-          <v-card>
+          <v-card @keyup.enter="login">
             <v-toolbar color="indigo darken-2" dark>请登录</v-toolbar>
             <v-form ref="loginFormRef" v-model="valid">
               <v-card-text class="mt-5">
@@ -232,8 +232,9 @@ export default {
 
     // 注册
     async registerUser() {
-      if (!this.$refs.registerformRef.validate())
+      if (!this.$refs.registerformRef.validate()){
         return this.$message.error('输入数据非法，请检查输入的用户名和密码')
+      }
       const { data: res } = await this.$http.post('user/add', {
         username: this.formdata.username,
         password: this.formdata.password,

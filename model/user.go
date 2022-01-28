@@ -1,6 +1,7 @@
 package model
 
 import (
+	"gin_web/utils"
 	"gin_web/utils/status_msg"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -46,15 +47,11 @@ func GetUser(id int) (User, int)  {
 }
 
 // GetManagerUserCount 查询管理员用户数目
-func GetManagerUserCount() (c int64, code int) {
-	var user User
-	var count int64
+func GetManagerUserCount() int64 {
+	var c int64
 	// 定义字段，不传输密码
-	err := db.Where("role = 1").Model(&user).Count(&count)
-	if err != nil {
-		return 0, statusMsg.ERROR
-	}
-	return count, statusMsg.SUCCSE
+	db.Model(&User{}).Where("role = ?",utils.UserRoleManager).Count(&c)
+	return c
 }
 
 // GetUserList 获取用户列表

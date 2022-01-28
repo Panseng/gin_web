@@ -3,6 +3,7 @@ package v1
 import (
 	"gin_web/model"
 	"gin_web/utils/status_msg"
+	"gin_web/utils/validator"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -15,7 +16,7 @@ func AddUser(c *gin.Context) {
 	var validCode int
 	_ = c.ShouldBindJSON(&data)
 
-	//msg, validCode = validator.Validate(&data)
+	msg, validCode = validator.Validate(&data)
 	if validCode != statusMsg.SUCCSE {
 		c.JSON(
 			http.StatusOK, gin.H{
@@ -136,11 +137,12 @@ func GetUserList(c *gin.Context) {
 	)
 }
 
+// GetManagerUserCounts 查询管理员总数
 func GetManagerUserCounts(c *gin.Context) {
-	count, code := model.GetManagerUserCount()
+	count := model.GetManagerUserCount()
 	c.JSON(http.StatusOK, gin.H{
-		"status": code,
+		"status": statusMsg.SUCCSE,
 		"data":  map[string]int64{"count": count},
-		"message": statusMsg.GetStatusMsg(code),
+		"message": statusMsg.GetStatusMsg(statusMsg.SUCCSE),
 	})
 }

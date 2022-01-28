@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"gopkg.in/ini.v1"
+	"strconv"
 )
 var (
 	ServerMode	string
@@ -20,6 +21,9 @@ var (
 	SK string
 	Bucket string
 	QiNiuServer string
+
+	UserRoleManager int
+	UserRoleGeneral int
 )
 
 func init()  {
@@ -30,6 +34,8 @@ func init()  {
 	// 获取配置数据
 	loadServer(file)
 	loadDB(file)
+	loadQiNiu(file)
+	loadEnumerate(file) // 枚举常数
 }
 
 func loadServer(file *ini.File)  {
@@ -52,4 +58,9 @@ func loadQiNiu(file *ini.File)  {
 	SK =file.Section("qi_niu").Key("SK").String()
 	Bucket =file.Section("qi_niu").Key("Bucket").String()
 	QiNiuServer =file.Section("qi_niu").Key("QiNiuServer").String()
+}
+
+func loadEnumerate(file *ini.File)  {
+	UserRoleManager,_ =strconv.Atoi(file.Section("qi_niu").Key("AK").String())
+	UserRoleGeneral,_ =strconv.Atoi(file.Section("qi_niu").Key("AK").String())
 }

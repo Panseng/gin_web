@@ -47,7 +47,7 @@ func InitRouter()  {
 	{
 		// 用户模块的路由接口
 		auth.GET("admin/users", v1.GetUserList)
-		auth.GET("admin/managers", v1.GetManagerUserCounts)
+		auth.GET("admin/muc", v1.GetManagerUserCounts) // 获取管理员用户数量
 		auth.PUT("user/:id", v1.EditUser)
 		auth.DELETE("user/:id", v1.DeleteUser)
 		//修改密码

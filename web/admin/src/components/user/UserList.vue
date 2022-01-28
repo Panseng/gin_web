@@ -38,7 +38,8 @@
               type="danger"
               icon="delete"
               style="margin-right: 15px"
-              @click="deleteUser(data.ID, data.role)"
+              :disabled="isBareManager&&data.role===1"
+              @click="deleteUser(data.ID)"
             >删除
             </a-button>
             <a-button type="info" icon="info" @click="ChangePassword(data.ID)">修改密码</a-button>
@@ -86,6 +87,7 @@
         </a-form-model-item>
         <a-form-model-item label="是否为管理员">
           <a-switch
+            :disabled="isBareManager&&userInfo.role===1"
             :checked="IsAdmin"
             checked-children="是"
             un-checked-children="否"
@@ -219,6 +221,7 @@
           ]
         },
         isChecked: false, // 是否确认原密码正确
+        isBareManager: false,
         columns,
         queryParam: {
           username: '',
@@ -391,6 +394,16 @@
         }
         this.userlist = res.data
         this.pagination.total = res.total
+        this.getManagerCount()
+      },
+
+      // 获取管理员数目
+      async getManagerCount(){
+        const { data: res } = await this.$http.get('admin/muc')
+        if (res.status !== 200){
+          this.$message.error(res.message)
+        }
+        this.isBareManager = !(res.data.count > 1)
       },
 
       // 搜索用户
@@ -425,7 +438,7 @@
         this.getUserList()
       },
       // 删除用户
-      deleteUser(id, role) {
+      deleteUser(id) {
         this.$confirm({
           title: '提示：请再次确认',
           content: '确定要删除该用户吗？一旦删除，无法恢复',
