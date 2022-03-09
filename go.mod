@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/dgrijalva/jwt-go/v4 v4.0.0-preview1
+	github.com/gin-contrib/gzip v0.0.5
 	github.com/gin-contrib/multitemplate v0.0.0-20220102045447-8a3ac507ec70
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-playground/locales v0.14.0
@@ -21,7 +22,6 @@ require (
 )
 
 require (
-	github.com/gin-contrib/gzip v0.0.5 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
